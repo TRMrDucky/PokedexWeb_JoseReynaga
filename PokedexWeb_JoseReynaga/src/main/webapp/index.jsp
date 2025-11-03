@@ -6,7 +6,7 @@
   </head>
   <body>
     <h1>¿Quién es ese Pokémon?</h1>
-    <form action="/usuarios" method="post">
+    <form action="/registrar" method="post">
         <div id="seccion-nombre">
         <label for="nombre">Nombre del Pokémon:</label>
         <input type="text" name="nombre" placeholder="Nombre del Pokémon" />
