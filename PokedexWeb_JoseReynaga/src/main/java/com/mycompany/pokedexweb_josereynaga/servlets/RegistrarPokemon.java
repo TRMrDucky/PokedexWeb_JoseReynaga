@@ -2,10 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package servlets;
+package com.mycompany.pokedexweb_josereynaga.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+
+import clases.Pokemon;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -44,8 +47,7 @@ public class RegistrarPokemon extends HttpServlet {
             out.println("</html>");
         }
     }
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -72,8 +74,43 @@ public class RegistrarPokemon extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-        
+        String nombre = request.getParameter("nombre");
+        String numero = request.getParameter("numero");
+        String tipo1 = request.getParameter("tipo1");
+        String tipo2 = request.getParameter("tipo2");
+        String url = request.getParameter("url");
+        String mensajeError = "";
+
+        if (nombre == null || nombre.isBlank()) {
+            mensajeError += "El nombre del pokémon es obligatorio.<br/>";
+        }
+
+        if (numero == null || numero.isBlank()) {
+            mensajeError += "El número del pokémon es obligatorio.<br/>";
+        }
+
+        if (tipo1 == null || tipo1.isBlank()) {
+            mensajeError += "El primer tipo del pokémon es obligatorio.<br/>";
+        }
+
+        if (url == null || url.isBlank()) {
+            mensajeError += "El enlace a la imagen del pokémon es obligatorio.<br/>";
+        }
+
+        if (!mensajeError.isEmpty()) {
+            request.setAttribute("Errores", mensajeError);
+            this.getServletContext().getRequestDispatcher("index.jsp").forward(request, response);
+            
+        } else {
+            Pokemon nuevoPokemon;
+            if (tipo2 == null || tipo2.isBlank()) {
+                nuevoPokemon = new Pokemon(nombre, Integer.parseInt(numero), List.of(tipo1), url);
+            } else {
+                nuevoPokemon = new Pokemon(nombre, Integer.parseInt(numero), List.of(tipo1, tipo2), url);
+            }
+            request.setAttribute("mensaje", "El Pokémon " + nombre + " ha sido registrado exitosamente.");
+            this.getServletContext().getRequestDispatcher("/pokedex.jsp").forward(request, response);
+        }
     }
 
     /**
