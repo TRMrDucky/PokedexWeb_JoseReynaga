@@ -57,7 +57,7 @@
         </div>
 
         <div id="submit">
-            <input type="submit" value="Atrapar">
+            <button type="submit">Registrar Pokémon</button>
         </div>
     </form>
 </body>
